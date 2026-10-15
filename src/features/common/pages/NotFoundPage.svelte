@@ -12,7 +12,7 @@
     <div class="space-y-2">
       <h1 class="text-4xl font-black text-slate-900 tracking-tight">404</h1>
       <h2 class="text-xl font-bold text-slate-800">Halaman Tidak Ditemukan</h2>
-      <p class="text-sm text-slate-500 leading-relaxed">
+      <p class="text-sm text-slate-600 leading-relaxed">
         Maaf, halaman yang Anda cari tidak dapat ditemukan atau telah dipindahkan.
       </p>
     </div>

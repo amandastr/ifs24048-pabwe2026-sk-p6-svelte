@@ -1,7 +1,5 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import Editor from "@toast-ui/editor";
-  import "@toast-ui/editor/dist/toastui-editor.css";
 
   export let value = "";
   export let placeholder = "Tulis deskripsi dengan format Markdown...";
@@ -10,9 +8,17 @@
 
   let editorContainer;
   let editorInstance;
+  let destroyed = false;
 
-  onMount(() => {
+  onMount(async () => {
     try {
+      // Dimuat secara lazy agar bundle awal (halaman login/daftar) tetap ringan
+      const [{ default: Editor }] = await Promise.all([
+        import("@toast-ui/editor"),
+        import("@toast-ui/editor/dist/toastui-editor.css"),
+      ]);
+      if (destroyed) return;
+
       editorInstance = new Editor({
         el: editorContainer,
         height: height,
@@ -45,6 +51,7 @@
   }
 
   onDestroy(() => {
+    destroyed = true;
     if (editorInstance) {
       editorInstance.destroy();
       editorInstance = null;

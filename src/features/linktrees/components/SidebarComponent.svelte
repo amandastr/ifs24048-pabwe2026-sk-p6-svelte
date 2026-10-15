@@ -79,7 +79,7 @@
       <div class="space-y-6">
         <div>
           <p
-            class="px-3 text-xs font-bold uppercase tracking-wider text-slate-400"
+            class="px-3 text-xs font-bold uppercase tracking-wider text-slate-600"
           >
             Menu Utama
           </p>
@@ -99,7 +99,7 @@
                     size={20}
                     class={active
                       ? "text-white"
-                      : "text-slate-400 group-hover:text-slate-600"}
+                      : "text-slate-600 group-hover:text-slate-600"}
                   />
                   <span>{item.label}</span>
                 </div>

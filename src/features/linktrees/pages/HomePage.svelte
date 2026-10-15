@@ -106,7 +106,7 @@
         <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Daftar Link Tree
         </h1>
-        <p class="text-sm text-slate-500 mt-1">
+        <p class="text-sm text-slate-600 mt-1">
           Kumpulkan dan kelola semua tautan penting Anda dalam satu tempat.
         </p>
       </div>
@@ -136,8 +136,8 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total</p>
-          <h3 data-testid="stat-total" class="text-3xl font-black text-slate-800 mt-1">{totalCount}</h3>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-600">Total</p>
+          <p data-testid="stat-total" class="text-3xl font-black text-slate-800 mt-1">{totalCount}</p>
         </div>
         <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
           <Link2 size={26} strokeWidth={2} />
@@ -146,8 +146,8 @@
 
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Public</p>
-          <h3 data-testid="stat-public" class="text-3xl font-black text-emerald-600 mt-1">{publicCount}</h3>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-600">Public</p>
+          <p data-testid="stat-public" class="text-3xl font-black text-emerald-600 mt-1">{publicCount}</p>
         </div>
         <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
           <Globe size={26} strokeWidth={2} />
@@ -156,8 +156,8 @@
 
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Unlisted</p>
-          <h3 data-testid="stat-unlisted" class="text-3xl font-black text-amber-600 mt-1">{unlistedCount}</h3>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-600">Unlisted</p>
+          <p data-testid="stat-unlisted" class="text-3xl font-black text-amber-600 mt-1">{unlistedCount}</p>
         </div>
         <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
           <EyeOff size={26} strokeWidth={2} />
@@ -166,8 +166,8 @@
 
       <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Private</p>
-          <h3 data-testid="stat-private" class="text-3xl font-black text-slate-700 mt-1">{privateCount}</h3>
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-600">Private</p>
+          <p data-testid="stat-private" class="text-3xl font-black text-slate-700 mt-1">{privateCount}</p>
         </div>
         <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center">
           <Lock size={26} strokeWidth={2} />
@@ -179,7 +179,7 @@
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
       <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="relative flex-1 max-w-md">
-          <Search size={18} class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={18} class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600" />
           <input
             type="text"
             data-testid="search-linktree-input"
@@ -190,7 +190,7 @@
         </div>
 
         <div class="flex items-center gap-2.5">
-          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5">
+          <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide flex items-center gap-1.5">
             <Funnel size={16} /> Filter:
           </span>
           <div class="inline-flex rounded-xl bg-slate-100 p-1 text-xs font-semibold text-slate-600">
@@ -216,7 +216,7 @@
 
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-slate-600">
-          <thead class="bg-slate-50/80 text-xs uppercase tracking-wider font-semibold text-slate-500 border-b border-slate-100">
+          <thead class="bg-slate-50/80 text-xs uppercase tracking-wider font-semibold text-slate-600 border-b border-slate-100">
             <tr>
               <th class="px-5 py-3.5 text-center w-16">ID</th>
               <th class="px-5 py-3.5">Judul</th>
@@ -229,14 +229,14 @@
           <tbody class="divide-y divide-slate-100">
             {#if loadingLinkTrees && filteredLinkTrees.length === 0}
               <tr>
-                <td colspan="6" class="px-6 py-12 text-center text-slate-400">
+                <td colspan="6" class="px-6 py-12 text-center text-slate-600">
                   <LoaderCircle size={36} class="mx-auto text-indigo-600 animate-spin mb-2" />
                   <p class="font-medium text-slate-600">Memuat daftar link tree...</p>
                 </td>
               </tr>
             {:else if filteredLinkTrees.length === 0}
               <tr>
-                <td colspan="6" class="px-6 py-12 text-center text-slate-400">
+                <td colspan="6" class="px-6 py-12 text-center text-slate-600">
                   <Link2 size={40} class="mx-auto text-slate-300 mb-2" />
                   <p class="font-medium">Belum ada data link tree yang cocok.</p>
                 </td>
@@ -247,7 +247,7 @@
                   data-testid={`linktree-row-${linkTree.id}`}
                   class="hover:bg-slate-50/70 transition-colors group"
                 >
-                  <td class="px-5 py-4 text-center font-mono text-xs font-bold text-slate-400">
+                  <td class="px-5 py-4 text-center font-mono text-xs font-bold text-slate-600">
                     {"#" + linkTree.id}
                   </td>
                   <td class="px-5 py-4">
@@ -262,15 +262,15 @@
                       <div>
                         <p class="font-semibold text-slate-800 leading-snug">{linkTree.title}</p>
                         {#if linkTree.description}
-                          <p class="text-xs text-slate-400 line-clamp-1 mt-0.5">{linkTree.description}</p>
+                          <p class="text-xs text-slate-600 line-clamp-1 mt-0.5">{linkTree.description}</p>
                         {/if}
                       </div>
                     </div>
                   </td>
-                  <td class="px-5 py-4 hidden md:table-cell text-xs text-slate-500">
+                  <td class="px-5 py-4 hidden md:table-cell text-xs text-slate-600">
                     {formatDate(linkTree.created_at)}
                   </td>
-                  <td class="px-5 py-4 hidden lg:table-cell text-xs text-slate-500">
+                  <td class="px-5 py-4 hidden lg:table-cell text-xs text-slate-600">
                     {formatDate(linkTree.updated_at)}
                   </td>
                   <td class="px-5 py-4">

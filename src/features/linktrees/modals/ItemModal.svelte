@@ -86,15 +86,15 @@
           <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center">
             <Link2 size={18} strokeWidth={2.5} />
           </div>
-          <h3 class="text-base font-bold text-slate-800">
+          <h2 class="text-base font-bold text-slate-800">
             {isEdit ? "Ubah Item Tautan" : "Tambah Item Tautan"}
-          </h3>
+          </h2>
         </div>
         <button
           type="button"
           data-testid="close-item-modal-btn"
           on:click={handleClose}
-          class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+          class="p-1.5 rounded-lg text-slate-600 hover:text-slate-600 hover:bg-slate-100 transition-colors"
         >
           <X size={18} />
         </button>

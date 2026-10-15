@@ -146,7 +146,7 @@
       <div class="p-6 sm:p-8 space-y-6">
         <div class="space-y-3">
           <div class="flex items-center gap-3">
-            <span class="font-mono text-xs font-bold text-slate-400">{"#" + linkTree.id}</span>
+            <span class="font-mono text-xs font-bold text-slate-600">{"#" + linkTree.id}</span>
             <span
               data-testid="detail-linktree-type"
               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 capitalize"
@@ -159,14 +159,14 @@
             {linkTree.title}
           </h1>
 
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
             <div class="flex items-center gap-1.5">
               <Calendar size={14} class="shrink-0" />
-              <span>Dibuat: <strong class="text-slate-500">{formatDate(linkTree.created_at)}</strong></span>
+              <span>Dibuat: <strong class="text-slate-600">{formatDate(linkTree.created_at)}</strong></span>
             </div>
             <div class="flex items-center gap-1.5">
               <Calendar size={14} class="shrink-0" />
-              <span>Diperbarui: <strong class="text-slate-500">{formatDate(linkTree.updated_at)}</strong></span>
+              <span>Diperbarui: <strong class="text-slate-600">{formatDate(linkTree.updated_at)}</strong></span>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@
           {#if linkTree.description}
             <MarkdownViewer content={linkTree.description} />
           {:else}
-            <p class="italic text-slate-400">Tidak ada deskripsi untuk link tree ini.</p>
+            <p class="italic text-slate-600">Tidak ada deskripsi untuk link tree ini.</p>
           {/if}
         </div>
 
@@ -198,7 +198,7 @@
           </div>
 
           {#if items.length === 0}
-            <div data-testid="items-empty" class="text-center py-10 rounded-2xl border border-dashed border-slate-200 text-slate-400">
+            <div data-testid="items-empty" class="text-center py-10 rounded-2xl border border-dashed border-slate-200 text-slate-600">
               <Link2 size={32} class="mx-auto text-slate-300 mb-2" />
               <p class="text-sm font-medium">Belum ada tautan pada link tree ini.</p>
             </div>
@@ -218,9 +218,9 @@
                   >
                     <p class="font-semibold text-slate-800 group-hover:text-indigo-600 inline-flex items-center gap-1.5">
                       {item.title}
-                      <ExternalLink size={14} class="text-slate-400" />
+                      <ExternalLink size={14} class="text-slate-600" />
                     </p>
-                    <p class="text-xs text-slate-400 truncate">{item.url}</p>
+                    <p class="text-xs text-slate-600 truncate">{item.url}</p>
                   </a>
                   <div class="inline-flex items-center gap-1.5 shrink-0">
                     <button

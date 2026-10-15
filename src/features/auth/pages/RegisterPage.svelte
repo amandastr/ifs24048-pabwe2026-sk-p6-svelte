@@ -51,7 +51,7 @@
     <div class="relative">
       <User
         size={18}
-        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
       />
       <input
         type="text"
@@ -72,7 +72,7 @@
     <div class="relative">
       <Mail
         size={18}
-        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
       />
       <input
         type="email"
@@ -93,7 +93,7 @@
     <div class="relative">
       <Lock
         size={18}
-        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
       />
       <input
         type="password"
@@ -114,7 +114,7 @@
     <div class="relative">
       <Lock
         size={18}
-        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
       />
       <input
         type="password"

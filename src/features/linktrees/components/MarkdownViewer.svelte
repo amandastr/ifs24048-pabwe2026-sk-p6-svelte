@@ -1,15 +1,21 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
-  import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 
   export let content = "";
 
   let viewerContainer;
   let viewerInstance;
+  let destroyed = false;
 
-  onMount(() => {
+  onMount(async () => {
     try {
+      // Dimuat secara lazy agar bundle awal tetap ringan
+      const [{ default: Viewer }] = await Promise.all([
+        import("@toast-ui/editor/dist/toastui-editor-viewer"),
+        import("@toast-ui/editor/dist/toastui-editor-viewer.css"),
+      ]);
+      if (destroyed) return;
+
       viewerInstance = new Viewer({
         el: viewerContainer,
         initialValue: content || "",
@@ -24,6 +30,7 @@
   }
 
   onDestroy(() => {
+    destroyed = true;
     if (viewerInstance) {
       viewerInstance.destroy();
       viewerInstance = null;

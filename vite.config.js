@@ -4,6 +4,31 @@ import { svelteTesting } from "@testing-library/svelte/vite";
 import tailwindcss from "@tailwindcss/vite";
 import process from "process";
 
+// Sisipkan CSS utama langsung ke index.html agar tidak menjadi render-blocking request
+function inlineMainCss() {
+  return {
+    name: "inline-main-css",
+    apply: "build",
+    enforce: "post",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        if (!ctx.bundle) return html;
+        return html.replace(
+          /<link rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g,
+          (match, href) => {
+            const fileName = href.replace(/^\//, "");
+            const asset = ctx.bundle[fileName];
+            if (!asset || asset.type !== "asset") return match;
+            delete ctx.bundle[fileName];
+            return `<style>${asset.source}</style>`;
+          }
+        );
+      },
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
@@ -13,6 +38,7 @@ export default defineConfig(({ mode }) => {
         prebundleSvelteLibraries: false,
       }),
       tailwindcss(),
+      inlineMainCss(),
       svelteTesting(),
     ],
     server: {
@@ -22,11 +48,13 @@ export default defineConfig(({ mode }) => {
       port: Number(env.APP_PORT) || 3004,
     },
     build: {
+      target: "esnext",
+      sourcemap: true,
       chunkSizeWarningLimit: 1500,
     },
     define: {
       DELCOM_BASEURL: JSON.stringify(
-        env.VITE_DELCOM_BASEURL || "https://open-api.delcom.org/api/v1"
+        env.VITE_DELCOM_BASEURL || "http://localhost:8000/api/v1"
       ),
     },
     test: {

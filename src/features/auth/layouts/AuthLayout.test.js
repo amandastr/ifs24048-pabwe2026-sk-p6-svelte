@@ -24,6 +24,18 @@ describe("AuthLayout", () => {
     expect(wrapper.text()).toContain("Daftar Baru");
   });
 
+  it("should expose a main landmark and a level-one heading for accessibility", () => {
+    vi.spyOn(apiHelper, "getAccessToken").mockReturnValue(null);
+
+    const { wrapper } = renderWithProviders(AuthLayout, {
+      route: "/auth/login",
+      preloadedState: { profile: null },
+    });
+
+    expect(wrapper.find("main").exists()).toBe(true);
+    expect(wrapper.find("h1").text()).toContain("Delcom Link Tree");
+  });
+
   it("should navigate to /auth/login and /auth/register when tab buttons are clicked", async () => {
     vi.spyOn(apiHelper, "getAccessToken").mockReturnValue(null);
     const navSpy = vi.spyOn(routerModule, "navigate").mockImplementation(() => {});

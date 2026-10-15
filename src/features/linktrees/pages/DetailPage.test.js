@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { waitFor } from "@testing-library/svelte";
 import DetailPage from "./DetailPage.svelte";
 import { renderWithProviders } from "../../../test-utils";
 import * as toolsHelper from "../../../helpers/toolsHelper";
@@ -67,11 +68,12 @@ describe("DetailPage", () => {
     expect(linkTreesStore.asyncSetLinkTree).toHaveBeenCalledWith(2);
   });
 
-  it("should render details, cover, type, dates and markdown description", () => {
+  it("should render details, cover, type, dates and markdown description", async () => {
     const { wrapper } = render();
 
     expect(wrapper.text()).toContain("Detail Link Tree Judul");
-    expect(wrapper.text()).toContain("Detail Link Tree Deskripsi");
+    // MarkdownViewer dimuat secara lazy
+    await waitFor(() => expect(wrapper.text()).toContain("Detail Link Tree Deskripsi"));
     expect(wrapper.find('[data-testid="detail-linktree-type"]').text()).toContain("public");
     expect(wrapper.find("img").exists()).toBe(true);
   });

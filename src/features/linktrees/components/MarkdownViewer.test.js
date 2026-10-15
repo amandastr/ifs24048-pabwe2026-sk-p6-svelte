@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render } from "@testing-library/svelte";
+import { render, waitFor } from "@testing-library/svelte";
 import MarkdownViewer from "./MarkdownViewer.svelte";
 
 const mockSetMarkdown = vi.fn();
@@ -29,6 +29,9 @@ describe("MarkdownViewer", () => {
 
     expect(container.querySelector('[data-testid="markdown-viewer"]')).toBeTruthy();
 
+    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
+    await waitFor(() => expect(ViewerMock).toHaveBeenCalled());
+
     await rerender({ content: "Perubahan Markdown" });
     expect(mockSetMarkdown).toHaveBeenCalledWith("Perubahan Markdown");
 
@@ -39,9 +42,13 @@ describe("MarkdownViewer", () => {
     expect(mockDestroy).toHaveBeenCalled();
   });
 
-  it("should initialize viewer with default empty content", () => {
+  it("should initialize viewer with default empty content", async () => {
     const { container } = render(MarkdownViewer);
     expect(container.querySelector('[data-testid="markdown-viewer"]')).toBeTruthy();
+
+    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
+    await waitFor(() => expect(ViewerMock).toHaveBeenCalled());
+    expect(ViewerMock.mock.calls[0][0].initialValue).toBe("");
   });
 
   it("should handle unmount when viewer fails to initialize", async () => {
@@ -50,6 +57,17 @@ describe("MarkdownViewer", () => {
       throw new Error("Viewer initialization failed");
     });
     const { unmount } = render(MarkdownViewer, { props: { content: "test" } });
+    await waitFor(() => expect(ViewerMock).toHaveBeenCalled());
     unmount();
+    expect(mockDestroy).not.toHaveBeenCalled();
+  });
+
+  it("should not create the viewer when unmounted before the lazy import resolves", async () => {
+    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
+    const { unmount } = render(MarkdownViewer, { props: { content: "x" } });
+    unmount();
+
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    expect(ViewerMock).not.toHaveBeenCalled();
   });
 });

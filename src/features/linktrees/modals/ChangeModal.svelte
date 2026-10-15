@@ -96,15 +96,15 @@
           <PenLine size={18} strokeWidth={2.5} />
         </div>
         <div>
-          <h3 class="text-base font-bold text-slate-800">Ubah Data Link Tree</h3>
-          <p class="text-xs text-slate-500">Perbarui judul, tipe, dan deskripsi Markdown</p>
+          <h2 class="text-base font-bold text-slate-800">Ubah Data Link Tree</h2>
+          <p class="text-xs text-slate-600">Perbarui judul, tipe, dan deskripsi Markdown</p>
         </div>
       </div>
       <button
         type="button"
         data-testid="close-edit-modal-btn"
         on:click={handleClose}
-        class="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 transition-colors"
+        class="p-2 rounded-xl text-slate-600 hover:text-slate-600 hover:bg-slate-200/60 transition-colors"
       >
         <X size={20} />
       </button>

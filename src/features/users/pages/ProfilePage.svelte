@@ -103,7 +103,7 @@
       <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
         Profil Akun
       </h1>
-      <p class="text-sm text-slate-500 mt-1">
+      <p class="text-sm text-slate-600 mt-1">
         Kelola informasi identitas, foto profil, dan keamanan akun Anda.
       </p>
     </div>
@@ -145,7 +145,7 @@
 
       <div class="text-center sm:text-left space-y-1">
         <h2 class="text-xl font-bold text-slate-800">{profile.name}</h2>
-        <p class="text-sm text-slate-500">{profile.email}</p>
+        <p class="text-sm text-slate-600">{profile.email}</p>
         <div class="pt-2">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
             <Check size={14} /> Terverifikasi
