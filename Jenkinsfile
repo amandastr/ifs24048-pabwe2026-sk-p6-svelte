@@ -2,21 +2,6 @@ pipeline {
 
     agent any
 
-    // ================================================================
-    // DEPLOY CONFIG
-    // Ganti 3 nilai ISI_... di bawah dengan data dari panel Delcom kamu.
-    // DEPLOY_TOKEN jangan ditulis di sini: buat di Jenkins
-    // (Manage Jenkins > Credentials > Add > Secret text, ID: deploy-token).
-    // Jika keempat variabel sudah diset di Manage Jenkins > System >
-    // Global properties, hapus seluruh blok environment ini.
-    // ================================================================
-    environment {
-        URL_REDEPLOY = 'ISI_URL_REDEPLOY'
-        URL_PROGRESS = 'ISI_URL_PROGRESS'
-        WEBSITE_ID   = 'ISI_WEBSITE_ID'
-        DEPLOY_TOKEN = credentials('deploy-token')
-    }
-
     options {
         timestamps()
         skipDefaultCheckout(true)
@@ -335,28 +320,6 @@ pipeline {
             }
 
             steps {
-
-                // Preflight: pastikan semua variabel deploy tersedia sebelum memanggil API.
-                // Nilainya TIDAK dicetak (DEPLOY_TOKEN rahasia), hanya namanya yang hilang.
-                sh '''
-                    missing=""
-                    for v in URL_REDEPLOY URL_PROGRESS DEPLOY_TOKEN WEBSITE_ID ARTIFACT_URL; do
-                        val=$(printenv "$v" || true)
-                        case "$val" in
-                            ""|ISI_*) missing="$missing $v" ;;
-                        esac
-                    done
-
-                    if [ -n "$missing" ]; then
-                        echo "ERROR: variabel environment belum diset di Jenkins:$missing"
-                        echo "Set di Manage Jenkins > System > Global properties > Environment variables,"
-                        echo "atau definisikan di blok environment { } pada Jenkinsfile."
-                        exit 1
-                    fi
-
-                    echo "Semua variabel deploy tersedia."
-                '''
-
                 script {
 
                     echo "=========================================="
