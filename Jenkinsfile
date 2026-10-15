@@ -320,6 +320,28 @@ pipeline {
             }
 
             steps {
+
+                // Preflight: pastikan semua variabel deploy tersedia sebelum memanggil API.
+                // Nilainya TIDAK dicetak (DEPLOY_TOKEN rahasia), hanya namanya yang hilang.
+                sh '''
+                    missing=""
+                    for v in URL_REDEPLOY URL_PROGRESS DEPLOY_TOKEN WEBSITE_ID ARTIFACT_URL; do
+                        val=$(printenv "$v" || true)
+                        if [ -z "$val" ]; then
+                            missing="$missing $v"
+                        fi
+                    done
+
+                    if [ -n "$missing" ]; then
+                        echo "ERROR: variabel environment belum diset di Jenkins:$missing"
+                        echo "Set di Manage Jenkins > System > Global properties > Environment variables,"
+                        echo "atau definisikan di blok environment { } pada Jenkinsfile."
+                        exit 1
+                    fi
+
+                    echo "Semua variabel deploy tersedia."
+                '''
+
                 script {
 
                     echo "=========================================="
