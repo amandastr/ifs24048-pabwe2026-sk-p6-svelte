@@ -4,17 +4,21 @@ import { svelteTesting } from "@testing-library/svelte/vite";
 import tailwindcss from "@tailwindcss/vite";
 import process from "process";
 
-// Sisipkan CSS utama langsung ke index.html agar tidak menjadi render-blocking request
-function inlineMainCss() {
+// Optimasi index.html saat build:
+// 1) CSS utama disisipkan langsung (tidak menjadi render-blocking request)
+// 2) skrip utama diberi <link rel="modulepreload"> agar tidak dihitung sebagai
+//    rantai permintaan kritis (Lighthouse: "Network dependency tree")
+function optimizeIndexHtml() {
   return {
-    name: "inline-main-css",
+    name: "optimize-index-html",
     apply: "build",
     enforce: "post",
     transformIndexHtml: {
       order: "post",
       handler(html, ctx) {
         if (!ctx.bundle) return html;
-        return html.replace(
+
+        const withInlineCss = html.replace(
           /<link rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g,
           (match, href) => {
             const fileName = href.replace(/^\//, "");
@@ -23,6 +27,11 @@ function inlineMainCss() {
             delete ctx.bundle[fileName];
             return `<style>${asset.source}</style>`;
           }
+        );
+
+        return withInlineCss.replace(
+          /<script type="module"[^>]*src="([^"]+)"[^>]*><\/script>/,
+          (script, src) => `<link rel="modulepreload" crossorigin href="${src}">\n  ${script}`
         );
       },
     },
@@ -38,7 +47,7 @@ export default defineConfig(({ mode }) => {
         prebundleSvelteLibraries: false,
       }),
       tailwindcss(),
-      inlineMainCss(),
+      optimizeIndexHtml(),
       svelteTesting(),
     ],
     server: {

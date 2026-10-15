@@ -1,73 +1,41 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, waitFor } from "@testing-library/svelte";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/svelte";
 import MarkdownViewer from "./MarkdownViewer.svelte";
 
-const mockSetMarkdown = vi.fn();
-const mockDestroy = vi.fn();
-
-vi.mock("@toast-ui/editor/dist/toastui-editor-viewer", () => {
-  return {
-    default: vi.fn().mockImplementation(function (options) {
-      this.options = options;
-      this.setMarkdown = mockSetMarkdown;
-      this.destroy = mockDestroy;
-    }),
-  };
-});
-
 describe("MarkdownViewer", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  it("should render markdown content as html", () => {
+    const { container } = render(MarkdownViewer, { props: { content: "Halo **Dunia**" } });
+
+    const viewer = container.querySelector('[data-testid="markdown-viewer"]');
+    expect(viewer).toBeTruthy();
+    expect(viewer.innerHTML).toContain("<strong>Dunia</strong>");
+    expect(viewer.textContent).toContain("Halo Dunia");
   });
 
-  it("should initialize viewer with initial content and update on content prop change", async () => {
-    const { container, rerender, unmount } = render(MarkdownViewer, {
-      props: {
-        content: "Halo Dunia",
-      },
-    });
+  it("should update the output when the content prop changes", async () => {
+    const { container, rerender } = render(MarkdownViewer, { props: { content: "Awal" } });
+    const viewer = container.querySelector('[data-testid="markdown-viewer"]');
+    expect(viewer.textContent).toContain("Awal");
 
-    expect(container.querySelector('[data-testid="markdown-viewer"]')).toBeTruthy();
-
-    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
-    await waitFor(() => expect(ViewerMock).toHaveBeenCalled());
-
-    await rerender({ content: "Perubahan Markdown" });
-    expect(mockSetMarkdown).toHaveBeenCalledWith("Perubahan Markdown");
+    await rerender({ content: "- satu\n- dua" });
+    expect(viewer.querySelectorAll("li").length).toBe(2);
 
     await rerender({ content: "" });
-    expect(mockSetMarkdown).toHaveBeenCalledWith("");
-
-    unmount();
-    expect(mockDestroy).toHaveBeenCalled();
+    expect(viewer.innerHTML).toBe("");
   });
 
-  it("should initialize viewer with default empty content", async () => {
+  it("should render an empty viewer by default", () => {
     const { container } = render(MarkdownViewer);
-    expect(container.querySelector('[data-testid="markdown-viewer"]')).toBeTruthy();
-
-    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
-    await waitFor(() => expect(ViewerMock).toHaveBeenCalled());
-    expect(ViewerMock.mock.calls[0][0].initialValue).toBe("");
+    expect(container.querySelector('[data-testid="markdown-viewer"]').innerHTML).toBe("");
   });
 
-  it("should handle unmount when viewer fails to initialize", async () => {
-    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
-    ViewerMock.mockImplementationOnce(function () {
-      throw new Error("Viewer initialization failed");
+  it("should never render raw html from the content", () => {
+    const { container } = render(MarkdownViewer, {
+      props: { content: '<img src=x onerror="alert(1)"><script>alert(1)</script>' },
     });
-    const { unmount } = render(MarkdownViewer, { props: { content: "test" } });
-    await waitFor(() => expect(ViewerMock).toHaveBeenCalled());
-    unmount();
-    expect(mockDestroy).not.toHaveBeenCalled();
-  });
-
-  it("should not create the viewer when unmounted before the lazy import resolves", async () => {
-    const ViewerMock = (await import("@toast-ui/editor/dist/toastui-editor-viewer")).default;
-    const { unmount } = render(MarkdownViewer, { props: { content: "x" } });
-    unmount();
-
-    await new Promise((resolve) => setTimeout(resolve, 30));
-    expect(ViewerMock).not.toHaveBeenCalled();
+    const viewer = container.querySelector('[data-testid="markdown-viewer"]');
+    expect(viewer.querySelector("img")).toBeNull();
+    expect(viewer.querySelector("script")).toBeNull();
+    expect(viewer.textContent).toContain("<script>");
   });
 });
